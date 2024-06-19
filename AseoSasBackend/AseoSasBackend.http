@@ -1,0 +1,6 @@
+@AseoSasBackend_HostAddress = http://localhost:5217
+
+GET {{AseoSasBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
