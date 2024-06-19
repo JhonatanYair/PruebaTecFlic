@@ -14,12 +14,18 @@ services:
         context: .
         dockerfile: ./docker/dotnet/Dockerfile
       ports:
-        - "8080:8080"
-        - "8081:8081"
+        - "8083:8080"
+        - "8084:8081"
       depends_on:
         - sqlserver
       environment:
         - ASPNETCORE_ENVIRONMENT=Docker
-
+    
+    aseosfrontend:
+      build:
+        context: .
+        dockerfile: ./docker/angular/Dockerfile
+      ports:
+        - "4300:4200"
 volumes:
   dbdata:

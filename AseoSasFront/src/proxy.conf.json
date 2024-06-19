@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://localhost:5221",
+    "target": "http://aseosbackend:8080",
     "secure": false
   }
 }

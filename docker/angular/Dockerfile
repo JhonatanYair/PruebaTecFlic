@@ -1,23 +1,12 @@
-# Usa una imagen base de Node.js
-FROM node:alpine
+FROM --platform=$BUILDPLATFORM node:20 as builder
 
-# Establece el directorio de trabajo dentro del contenedor
-WORKDIR /app
+RUN mkdir /project
+WORKDIR /project
 
-# Copia el package.json y package-lock.json para instalar dependencias
-COPY package*.json ./
+RUN npm install -g @angular/cli@18
 
-# Instala las dependencias del proyecto
-RUN npm install
+COPY AseoSasFront/package.json AseoSasFront/package-lock.json ./
+RUN npm ci
 
-# Copia todos los archivos del proyecto al contenedor
-COPY . .
-
-# Compila la aplicación Angular en modo de producción
-RUN npm run build --prod
-
-# Expone el puerto 80 en el contenedor
-EXPOSE 80
-
-# Comando para ejecutar la aplicación cuando se inicie el contenedor
-CMD ["npm", "run", "serve:ssr"]
+COPY AseoSasFront .
+CMD ["ng", "serve", "--host", "0.0.0.0"]
