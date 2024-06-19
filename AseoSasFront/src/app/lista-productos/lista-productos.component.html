@@ -1,0 +1,32 @@
+<h2>Lista de Productos</h2>
+
+<div style="margin: 1em 0;">
+  <button (click)="formularioProducto()" class="create-btn">Crear Producto</button>
+</div>
+
+<div *ngIf="listaProductos && listaProductos.length; else noProductos">
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let producto of listaProductos">
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.precio | currency }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td>
+          <button (click)="formularioProducto(producto)" class="edit-btn">Editar</button>
+          <button (click)="eliminarProducto(producto.id)" class="delete-btn">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #noProductos>
+  <p>No hay productos para mostrar.</p>
+</ng-template>
