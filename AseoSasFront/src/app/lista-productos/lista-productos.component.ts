@@ -13,6 +13,7 @@ import {CommonModule} from '@angular/common';
 })
 export class ListaProductosComponent implements OnInit {
   listaProductos: Producto[] = [];
+  listaProductosRespaldo: Producto[] = [];
 
   constructor(
     private productoService: ProductoService, 
@@ -30,10 +31,32 @@ export class ListaProductosComponent implements OnInit {
     this.productoService.getProductos().subscribe({
       next: (productos) => {
         this.listaProductos = productos;
+        this.listaProductosRespaldo = productos;
         console.log(productos);
       },
       error: (e) => console.error(e)
     });
+  }
+
+  buscarProductoPorId(idABuscar: number) {
+    // Restaurar la lista original si se borra el input
+    if (idABuscar === undefined || idABuscar === null || isNaN(idABuscar)) {
+      this.listaProductos = this.listaProductosRespaldo;
+      return;
+    }
+  
+    // Filtrar la lista de productos por el ID ingresado
+    this.listaProductos = this.listaProductosRespaldo.filter(producto => producto.id === idABuscar);
+  }
+  
+  // Manejador de eventos para la pulsación de tecla
+  keyUpHandler(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    console.log(input.value);
+    let idProducto = parseInt(input.value.trim()); // Parsear y limpiar espacios en blanco
+  
+    // Llamar a la función para buscar por ID
+    this.buscarProductoPorId(idProducto);
   }
 
   formularioProducto(producto?:Producto): void{
